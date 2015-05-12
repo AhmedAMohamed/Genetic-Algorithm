@@ -1,3 +1,5 @@
+import java.util.Random;
+
 public class Individual {
 
 	public boolean[] s1;
@@ -43,6 +45,10 @@ public class Individual {
 	}
 
 	public static void main(String[] args) {
-
+		Random rand = new Random();
+		while(true){
+			int y = rand .nextInt(32);
+			System.out.println(y);
+		}
 	}
 }
