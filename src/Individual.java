@@ -5,6 +5,7 @@ public class Individual {
 	public boolean[] s1;
 	public boolean[] s2;
 	public double fittness;
+	public double probability;
 
 	public Individual() {
 		s1 = new boolean[5];
@@ -42,6 +43,14 @@ public class Individual {
 				* (1600 - Math.pow(s2 - 10, 2)) * Math.sin(s1 * Math.PI / 10)
 				* Math.sin(s2 * Math.PI / 10);
 		
+	}
+	
+	public double getProbability() {
+		return probability;
+	}
+
+	public void setProbability(double probability) {
+		this.probability = probability;
 	}
 
 	public static void main(String[] args) {
