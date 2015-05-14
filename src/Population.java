@@ -44,36 +44,65 @@ public class Population {
 	}
 
 	public Individual mutate(Individual id) {
-		
-		return null;
+		Individual t = new Individual(id);
+		Random rand = new Random();
+		for (int i = 0; i < this.size; i++) {
+			if (rand.nextBoolean()) {
+				t.s1[i] = !t.s1[i];
+			}
+		}
+		for (int i = 0; i < this.size; i++) {
+			if (rand.nextBoolean()) {
+				t.s2[i] = !t.s2[i];
+			}
+		}
+		return t;
 	}
-	
-	public Population select() { // the new generation is consist of the best fit add roulette wheel selection
+
+	public static Individual[] crossOver(Individual[] id) {
+		Individual[] t = new Individual[2];
+		for (int i = 0; i < t.length; i++) {
+			t[i] = new Individual(id[i]);
+		}
+		Random rand = new Random();
+
+		int position = rand.nextInt(id[0].s1.length - 1);
+		for (int j = position + 1; j < t[0].s1.length; j++) {
+			boolean r = id[0].s1[j];
+			t[0].s1[j] = id[1].s1[j];
+			t[1].s1[j] = r;
+		}
+		return t;
+	}
+
+	public Population select() { // the new generation is consist of the best
+									// fit add roulette wheel selection
 		Population newOne = new Population(this.size);
 		double total = 0;
 		double sumOfPro = 0;
-		for(Individual i : population) {
+		for (Individual i : population) {
 			total += i.fittness;
 		}
-		for(Individual i : population) {
+		for (Individual i : population) {
 			i.probability = sumOfPro + (i.fittness / total);
 			sumOfPro += i.probability;
 		}
 		newOne.addIndiVitual(0, this.getFittest());
-		for(int i = 1; i < newOne.size; i++) {
+		for (int i = 1; i < newOne.size; i++) {
 			double probable = Math.random();
 			int j = 0;
-			for(j = 0; j < this.size; j++) {
-				if(probable > this.population[j].probability && probable < this.population[j].probability) {
+			for (j = 0; j < this.size; j++) {
+				if (probable > this.population[j].probability
+						&& probable < this.population[j].probability) {
 					break;
 				}
 			}
-			newOne.addIndiVitual(i, this.population[j]); 
+			newOne.addIndiVitual(i, this.population[j]);
 		}
 		return newOne;
 	}
-	
+
 	public void addIndiVitual(int index, Individual chromosom) {
-		this.population[index] = chromosom; 
+		this.population[index] = chromosom;
 	}
 }

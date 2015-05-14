@@ -12,6 +12,13 @@ public class Individual {
 		s2 = new boolean[5];
 	}
 	
+	public Individual(Individual d) {
+		s1 = d.s1;
+		s2 = d.s2;
+		fittness = d.fittness;
+		probability = d.probability;
+	}
+	
 	public Individual(int s1, int s2) {
 		this.s1 = toBinaryArray(s1);
 		this.s2 = toBinaryArray(s2);
@@ -54,10 +61,27 @@ public class Individual {
 	}
 
 	public static void main(String[] args) {
-		Random rand = new Random();
-		while(true){
-			int y = rand .nextInt(32);
-			System.out.println(y);
+		Individual[] t = new Individual[2];
+		for(int i = 0; i < t.length; i++){
+			t[i] = new Individual();
+			Random e = new Random();
+			for(int j = 0; j < t[i].s1.length; j++) {
+				t[i].s1[j] = e.nextBoolean();
+			}
+		}
+		for(int i = 0; i < 2; i++) {
+			for(int j = 0; j < t[i].s1.length; j++) {
+				System.out.print(t[i].s1[j]?'1' : '0');
+			}
+			System.out.println();
+		}
+		Individual[] q = Population.crossOver(t);
+		System.out.println();
+		for(int i = 0; i < 2; i++) {
+			for(int j = 0; j < q[i].s1.length; j++) {
+				System.out.print(q[i].s1[j]?'1' : '0');
+			}
+			System.out.println();
 		}
 	}
 }
