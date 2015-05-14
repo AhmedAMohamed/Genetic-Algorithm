@@ -4,9 +4,6 @@ public class Population {
 	Individual[] population;
 	int size;
 
-	double mutationRate; // how many bits to mutate
-	boolean crossOver; // single or two point crossover
-
 	public Population(int size) {
 		population = new Individual[size];
 		this.size = size;
@@ -46,14 +43,9 @@ public class Population {
 	public Individual mutate(Individual id) {
 		Individual t = new Individual(id);
 		Random rand = new Random();
-		for (int i = 0; i < this.size; i++) {
-			if (rand.nextBoolean()) {
-				t.s1[i] = !t.s1[i];
-			}
-		}
-		for (int i = 0; i < this.size; i++) {
-			if (rand.nextBoolean()) {
-				t.s2[i] = !t.s2[i];
+		for(int i = 0; i < id.s1.length; i++) {
+			if(rand.nextBoolean()) {
+				t.s1[i] = !id.s1[i];
 			}
 		}
 		return t;
@@ -75,8 +67,7 @@ public class Population {
 		return t;
 	}
 
-	public Population select() { // the new generation is consist of the best
-									// fit add roulette wheel selection
+	public Population select() {
 		Population newOne = new Population(this.size);
 		double total = 0;
 		double sumOfPro = 0;
@@ -87,7 +78,6 @@ public class Population {
 			i.probability = sumOfPro + (i.fittness / total);
 			sumOfPro += i.probability;
 		}
-		newOne.addIndiVitual(0, this.getFittest());
 		for (int i = 1; i < newOne.size; i++) {
 			double probable = Math.random();
 			int j = 0;

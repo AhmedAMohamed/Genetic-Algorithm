@@ -3,52 +3,54 @@ import java.util.Random;
 public class Individual {
 
 	public boolean[] s1;
-	public boolean[] s2;
 	public double fittness;
 	public double probability;
 
 	public Individual() {
-		s1 = new boolean[5];
-		s2 = new boolean[5];
+		s1 = new boolean[10];
 	}
 	
 	public Individual(Individual d) {
 		s1 = d.s1;
-		s2 = d.s2;
 		fittness = d.fittness;
 		probability = d.probability;
 	}
 	
 	public Individual(int s1, int s2) {
-		this.s1 = toBinaryArray(s1);
-		this.s2 = toBinaryArray(s2);
+		this.s1 = toBinaryArray(s1,s2);
 	}
 
-	public static int toInteger(boolean[] s) {
-		int value = 0;
+	public static int[] toInteger(boolean[] s) {
+		int[] values = new int[2];
 		for (int i = 0; i < 5; i++) {
 			int x = s[i] ? 1 : 0;
-			value += x * Math.pow(2, 5 - i);
+			values[0] += x * Math.pow(2, 5 - i-1);
 		}
-		return value;
+		System.out.println(values[0]);
+		for (int i = 5; i < 10; i++) {
+			int x = s[i] ? 1 : 0;
+			values[1] += x * Math.pow(2, 10 - i-1);
+		}
+		return values;
 	}
 
-	public static boolean[] toBinaryArray(int s) {
-		boolean[] w = new boolean[5];
-		String f = String.format("%5s", Integer.toBinaryString(s)).replace(' ',
+	public static boolean[] toBinaryArray(int s1,int s2) {
+		boolean[] w = new boolean[10];
+		String f = String.format("%5s", Integer.toBinaryString(s1)).replace(' ',
 				'0');
-		for (int i = 0; i < 5; i++) {
+		String g = String.format("%5s", Integer.toBinaryString(s2)).replace(' ', '0');
+		f = f+g;
+		for (int i = 0; i < w.length; i++) {
 			w[i] = f.charAt(i) == '1' ? true : false;
 		}
 		return w;
 	}
 
 	public void calculateFittness() {
-		int s1 = toInteger(this.s1);
-		int s2 = toInteger(this.s2);
-		fittness = Math.pow(10, 6) - (625 - Math.pow(s1 - 25, 2))
-				* (1600 - Math.pow(s2 - 10, 2)) * Math.sin(s1 * Math.PI / 10)
-				* Math.sin(s2 * Math.PI / 10);
+		int[] s1 = toInteger(this.s1);
+		fittness = Math.pow(10, 6) - (625 - Math.pow(s1[0] - 25, 2))
+				* (1600 - Math.pow(s1[1] - 10, 2)) * Math.sin(s1[0] * Math.PI / 10)
+				* Math.sin(s1[1] * Math.PI / 10);
 		
 	}
 	
@@ -61,27 +63,10 @@ public class Individual {
 	}
 
 	public static void main(String[] args) {
-		Individual[] t = new Individual[2];
-		for(int i = 0; i < t.length; i++){
-			t[i] = new Individual();
-			Random e = new Random();
-			for(int j = 0; j < t[i].s1.length; j++) {
-				t[i].s1[j] = e.nextBoolean();
-			}
-		}
-		for(int i = 0; i < 2; i++) {
-			for(int j = 0; j < t[i].s1.length; j++) {
-				System.out.print(t[i].s1[j]?'1' : '0');
-			}
-			System.out.println();
-		}
-		Individual[] q = Population.crossOver(t);
-		System.out.println();
-		for(int i = 0; i < 2; i++) {
-			for(int j = 0; j < q[i].s1.length; j++) {
-				System.out.print(q[i].s1[j]?'1' : '0');
-			}
-			System.out.println();
-		}
+		boolean[] e = {true,false,true,true,true,true,true,true,true,true};
+		int[] r = toInteger(e);
+		System.out.println(r[0]);
+		System.out.println(r[1]);
+		
 	}
 }
