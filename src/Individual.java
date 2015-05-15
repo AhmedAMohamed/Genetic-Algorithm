@@ -1,4 +1,3 @@
-
 public class Individual {
 
 	public boolean[] s1;
@@ -49,14 +48,7 @@ public class Individual {
 		int[] s1 = toInteger(this.s1);
 		fittness = (int) (Math.pow(10, 6) - (625 - Math.pow(s1[0] - 25, 2))
 				* (1600 - Math.pow(s1[1] - 10, 2))
-				* Math.sin(s1[0] * 3.14 / 10 /*
-											 * in case to convert from degree to
-											 * radian * 0.0174532925
-											 */)
-				* Math.sin(s1[1] * 3.14 / 10 /*
-											 * in case to convert from degree to
-											 * radian * 0.0174532925
-											 */));
+				* Math.sin(s1[0] * 3.14 / 10) * Math.sin(s1[1] * 3.14 / 10));
 
 	}
 
@@ -67,12 +59,8 @@ public class Individual {
 	public void setProbability(double probability) {
 		this.probability = probability;
 	}
-/*
-	public static void main(String[] args) {
-		Individual s = new Individual(2, 2);
-		s.calculateFittness();
-		System.out.println(s.fittness);
-	}
-
-*/
+	/*
+	 * public static void main(String[] args) { Individual s = new Individual(2,
+	 * 2); s.calculateFittness(); System.out.println(s.fittness); }
+	 */
 }

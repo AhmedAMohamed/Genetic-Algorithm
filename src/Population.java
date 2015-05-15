@@ -4,10 +4,11 @@ public class Population {
 	Individual[] population;
 	int size;
 
-	public Population(int size) {
+	public Population(int size, boolean state) {
 		population = new Individual[size];
 		this.size = size;
-		InetializePopulation();
+		if(state)
+			InetializePopulation();
 	}
 
 	private void InetializePopulation() {
@@ -40,7 +41,7 @@ public class Population {
 		return avarage;
 	}
 
-	public Individual mutate(Individual id) {
+	public static Individual mutate(Individual id) {
 		Individual t = new Individual(id);
 		Random rand = new Random();
 		for (int i = 0; i < id.s1.length; i++) {
@@ -57,7 +58,6 @@ public class Population {
 			t[i] = new Individual(id[i]);
 		}
 		Random rand = new Random();
-
 		int position = rand.nextInt(id[0].s1.length - 1);
 		for (int j = position + 1; j < t[0].s1.length; j++) {
 			boolean r = id[0].s1[j];
@@ -68,7 +68,7 @@ public class Population {
 	}
 
 	public Population select() {
-		Population newOne = new Population(this.size);
+		Population newOne = new Population(this.size, false);
 		double total = 0;
 		double sumOfPro = 0;
 		for (Individual i : population) {
