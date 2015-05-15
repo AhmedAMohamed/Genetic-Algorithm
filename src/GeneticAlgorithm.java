@@ -5,7 +5,7 @@ public class GeneticAlgorithm {
 	public static void algo() {
 		Population pop = new Population(5, true);
 		int q = 0;
-		int q1 = 40;
+		int q1 = 10000000;
 		while (q < q1) {
 			int averege = pop.evaluate();
 				for (int i = 0; i < 5; i++) {
@@ -62,7 +62,7 @@ public class GeneticAlgorithm {
 		System.out.println();
 		Random rand = new Random();
 		for (int i = 0; i < pop.size; i++) {
-			if (rand.nextBoolean()) {
+			if (/*rand.nextBoolean()*/true) {
 				Individual id = Population.mutate(pop.population[i]);
 				nPop.addIndiVitual(i, id);
 			} else {
