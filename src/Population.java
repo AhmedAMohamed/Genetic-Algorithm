@@ -12,9 +12,9 @@ public class Population {
 
 	private void InetializePopulation() {
 		Random rand = new Random();
-		int s1 = rand.nextInt(32);
-		int s2 = rand.nextInt(32);
 		for (int i = 0; i < this.size; i++) {
+			int s1 = rand.nextInt(32);
+			int s2 = rand.nextInt(32);
 			population[i] = new Individual(s1, s2);
 			population[i].calculateFittness();
 		}
@@ -43,8 +43,8 @@ public class Population {
 	public Individual mutate(Individual id) {
 		Individual t = new Individual(id);
 		Random rand = new Random();
-		for(int i = 0; i < id.s1.length; i++) {
-			if(rand.nextBoolean()) {
+		for (int i = 0; i < id.s1.length; i++) {
+			if (rand.nextBoolean()) {
 				t.s1[i] = !id.s1[i];
 			}
 		}
@@ -74,20 +74,23 @@ public class Population {
 		for (Individual i : population) {
 			total += i.fittness;
 		}
-		for (Individual i : population) {
-			i.probability = sumOfPro + (i.fittness / total);
-			sumOfPro += i.probability;
+		for (int i = 0; i < population.length; i++) {
+			population[i].probability = sumOfPro + (population[i].fittness / total);
+			sumOfPro = population[i].probability;
 		}
-		for (int i = 1; i < newOne.size; i++) {
+		int k = 0;
+		for (int i = 0; i < newOne.size; i++) {
 			double probable = Math.random();
 			int j = 0;
 			for (j = 0; j < this.size; j++) {
 				if (probable > this.population[j].probability
-						&& probable < this.population[j].probability) {
+						&& probable < this.population[j+1].probability) {
 					break;
 				}
 			}
-			newOne.addIndiVitual(i, this.population[j]);
+			if(j == this.size)
+				j--;
+			newOne.addIndiVitual(k++, this.population[j]);
 		}
 		return newOne;
 	}
