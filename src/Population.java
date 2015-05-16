@@ -3,7 +3,9 @@ import java.util.Random;
 public class Population {
 	Individual[] population;
 	int size;
-
+	
+	public static final double mutate = 0.0016;
+	
 	public Population(int size, boolean state) {
 		population = new Individual[size];
 		this.size = size;
@@ -45,7 +47,7 @@ public class Population {
 		Individual t = new Individual(id);
 		Random rand = new Random();
 		for (int i = 0; i < id.s1.length; i++) {
-			if (rand.nextBoolean()) {
+			if (rand.nextDouble() > mutate) {
 				t.s1[i] = !id.s1[i];
 			}
 		}
@@ -71,6 +73,10 @@ public class Population {
 		Population newOne = new Population(this.size, false);
 		double total = 0;
 		double sumOfPro = 0;
+		newOne.addIndiVitual(0, getFittest());
+		newOne.addIndiVitual(1, getFittest());
+		newOne.addIndiVitual(2, getFittest());
+		
 		for (Individual i : population) {
 			total += i.fittness;
 		}
@@ -78,8 +84,8 @@ public class Population {
 			population[i].probability = sumOfPro + (population[i].fittness / total);
 			sumOfPro = population[i].probability;
 		}
-		int k = 0;
-		for (int i = 0; i < newOne.size; i++) {
+		int k = 3;
+		for (int i = 1; i < newOne.size && k < newOne.size; i++) {
 			double probable = Math.random();
 			int j = 0;
 			for (j = 0; j < this.size; j++) {
